@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var browserify = require('gulp-browserify');
+var uglify = require('gulp-uglify');
  
 gulp.task('sass', function() {
   return gulp.src('src/scss/app.scss')
@@ -15,6 +16,7 @@ gulp.task('scripts', function() {
           insertGlobals : true,
           debug : !gulp.env.production
         }))
+        .pipe(uglify())
         .pipe(gulp.dest('./build/js'))
 });
 
