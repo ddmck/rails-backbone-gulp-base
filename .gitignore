@@ -15,3 +15,4 @@
 /log/*.log
 /tmp
 /frontend/node_modules
+.ruby-gemset
