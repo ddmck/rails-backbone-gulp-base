@@ -1,8 +1,8 @@
-== README
+## README
 
 This repository is for initializing a Rails app with Devise and Backbone.js installed with gulp for asset management.
 
-=== Getting Set Up
+### Getting Set Up
 
 Clone the repository
 ``` sh
