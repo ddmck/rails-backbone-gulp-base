@@ -3,8 +3,10 @@ var sass = require('gulp-sass');
 var browserify = require('gulp-browserify');
 var uglify = require('gulp-uglify');
 var rev = require('gulp-rev');
+var concat = require('gulp-concat');
 var connect = require('gulp-connect');
 var autoprefixer = require('gulp-autoprefixer');
+var stdlib = require('./stdlib');
 
 gulp.task('sass', function() {
   return gulp.src('src/scss/app.scss')
@@ -17,13 +19,21 @@ gulp.task('sass', function() {
 gulp.task('scripts', function() {
     // Single entry point to browserify
     gulp.src('src/js/app.js')
-        .pipe(browserify({
-          insertGlobals : true,
-          debug : !gulp.env.production
-        }))
-        .pipe(uglify())
-        .pipe(gulp.dest('./build/js'))
-        .pipe(connect.reload());
+      .pipe(browserify({
+        insertGlobals : true,
+        debug : !gulp.env.production
+      }))
+      .pipe(uglify())
+      .pipe(gulp.dest('./build/js'))
+      .pipe(connect.reload());
+});
+
+gulp.task('lib', function(){
+  return gulp.src(stdlib.files)
+    .pipe(concat('lib.js'))
+    // .pipe(stripDebug())
+    .pipe(uglify())
+    .pipe(gulp.dest('./build/js/'));
 });
 
 gulp.task('rev', ['sass', 'scripts'], function() {
@@ -34,9 +44,10 @@ gulp.task('rev', ['sass', 'scripts'], function() {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('watch', ['sass', 'scripts'], function() {
+gulp.task('watch', ['sass', 'scripts', 'lib'], function() {
   gulp.watch('src/scss/**/*.scss', ['sass']);
   gulp.watch('src/js/**/*.js', ['scripts']);
+  gulp.watch('./stdlib.js', ['lib']);
 });
 
 gulp.task('connect', function() {

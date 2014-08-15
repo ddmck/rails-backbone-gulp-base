@@ -1,5 +1,6 @@
-var _ = require('underscore');
-var $ = require('jquery')(window);
-var Backbone = require('backbone');
-Backbone.$ = $;
-var main = require('./modules/main.js');
+var Router = require('./modules/router')
+var App = new Router();
+
+$(document).ready(function(){
+  App.start();
+});
